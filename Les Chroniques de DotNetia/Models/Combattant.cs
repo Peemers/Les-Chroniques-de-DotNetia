@@ -13,6 +13,7 @@ internal abstract class Combattant : ICombattant
     public string Pseudo { get; protected init; }
     public int MaxPv { get; protected set; }
     public int PvActuels { get; protected set; }
+    public int AttaqueBase { get; protected init; } = 2;
 
     public bool IsAlive
     {
@@ -25,7 +26,7 @@ internal abstract class Combattant : ICombattant
     {
         MaxPv = maxPv;
         PvActuels = maxPv;
-        Pseudo = pseudo;
+        Pseudo = pseudo;        
     }
 
     //Methodes
@@ -38,7 +39,7 @@ internal abstract class Combattant : ICombattant
         if (!IsAlive)
             return;
 
-        int degats = 2;
+        int degats = AttaqueBase;
         cible.RecevoirDegats(degats);
     }
 
