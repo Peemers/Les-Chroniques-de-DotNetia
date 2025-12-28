@@ -6,7 +6,7 @@ internal class Joueur : Combattant
 
     //Constructeurs
 
-    internal Joueur(int maxPv) : base(maxPv)
+    internal Joueur(int maxPv, string pseudo) : base(maxPv, pseudo)
     {
 
     }

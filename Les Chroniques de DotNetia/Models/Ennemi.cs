@@ -11,7 +11,7 @@ internal class Ennemi : Combattant
 
     //Constructeurs
 
-    internal Ennemi(int maxPv) : base (maxPv)
+    internal Ennemi(int maxPv, string pseudo) : base (maxPv, pseudo)
     {
         
     }

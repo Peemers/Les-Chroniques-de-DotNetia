@@ -6,7 +6,7 @@ namespace Les_Chroniques_de_DotNetia.Interfaces;
 
 public interface ICombattant
 {
-    public string Pseudo { get; protected init; }
+    public string Pseudo { get; }
     public int MaxPv { get; }
     public int PvActuels { get; }
 

@@ -10,7 +10,7 @@ internal abstract class Combattant : ICombattant
     
     //Prop
 
-    public string Name { get; protected init; }
+    public string Pseudo { get; protected init; }
     public int MaxPv { get; protected set; }
     public int PvActuels { get; protected set; }
 
@@ -21,16 +21,16 @@ internal abstract class Combattant : ICombattant
 
     //Constructeurs
 
-    protected Combattant(int maxPv, string name)
+    protected Combattant(int maxPv, string pseudo)
     {
         MaxPv = maxPv;
         PvActuels = maxPv;
-        Name = name;
+        Pseudo = pseudo;
     }
 
     //Methodes
 
-    public void Attaquer(ICombattant cible) //ici je dirais une implémentation commune car il s'agit de l'attaque de base ?
+    public void Attaquer(ICombattant cible) 
     {
         if (cible == null)
             return;
