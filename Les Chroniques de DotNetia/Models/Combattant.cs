@@ -1,7 +1,4 @@
 ﻿using Les_Chroniques_de_DotNetia.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Les_Chroniques_de_DotNetia.Models;
 
@@ -14,6 +11,8 @@ internal abstract class Combattant : ICombattant
     public int MaxPv { get; protected set; }
     public int PvActuels { get; protected set; }
     public int AttaqueBase { get; protected init; } = 2;
+    public int Ressource { get; protected set; }
+    public int CoutAttaqueLourde { get; protected set; } = 10;
 
     public bool IsAlive
     {
@@ -26,7 +25,8 @@ internal abstract class Combattant : ICombattant
     {
         MaxPv = maxPv;
         PvActuels = maxPv;
-        Pseudo = pseudo;        
+        Pseudo = pseudo;
+        Ressource = 50;
     }
 
     //Methodes
@@ -43,7 +43,24 @@ internal abstract class Combattant : ICombattant
         cible.RecevoirDegats(degats);
     }
 
+    public void AttaqueLourde(ICombattant cible)
+    {
+        if (cible == null)
+        {
+            return;
+        }
+        if (!IsAlive)
+        {
+            return;
+        }
+        if (Ressource >= CoutAttaqueLourde)
+        {
+            int degats = AttaqueBase + AttaqueBase / 2;
+            cible.RecevoirDegats(degats);
+            Ressource = Ressource - CoutAttaqueLourde;
+        }
 
+    }
     public virtual void RecevoirDegats(int degats)
     {
         if (PvActuels <= 0)
