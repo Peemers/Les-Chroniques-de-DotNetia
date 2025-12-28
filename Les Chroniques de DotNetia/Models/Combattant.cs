@@ -10,7 +10,7 @@ internal abstract class Combattant : ICombattant
     
     //Prop
 
-    public string Name { get; protected init; }
+    public string Pseudo { get; protected init; }
     public int MaxPv { get; protected set; }
     public int PvActuels { get; protected set; }
 
@@ -25,7 +25,7 @@ internal abstract class Combattant : ICombattant
     {
         MaxPv = maxPv;
         PvActuels = maxPv;
-        Name = name;
+        Pseudo = name;
     }
 
     //Methodes
