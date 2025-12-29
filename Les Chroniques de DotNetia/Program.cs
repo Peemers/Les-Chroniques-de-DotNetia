@@ -12,11 +12,17 @@ j1.RegenRessource();
 
 Console.WriteLine($"{j1.Ressource} ressource joueur 1, ne doit pas dépasser 50");
 
+int degats = j1.Attaquer(e1);
+int degatsLourd = j1.AttaqueLourde(e1);
+
 while (j1.Ressource > 0)
 {
   j1.Attaquer(e1);
+  Console.WriteLine($"{j1.Pseudo} inflige {degats} sur {e1.Pseudo}");
   j1.AttaqueLourde(e1);
-  Console.WriteLine($"{j1.Ressource}");
+  Console.WriteLine($"{j1.Pseudo} inflige {degatsLourd} sur {e1.Pseudo}");
+  
+  Console.WriteLine($"{j1.Ressource} doit descendre de 10 a la fois");
 }
 
 j1.RegenRessource();

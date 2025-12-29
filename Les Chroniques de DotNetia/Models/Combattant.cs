@@ -7,8 +7,9 @@ namespace Les_Chroniques_de_DotNetia.Models;
 
 internal abstract class Combattant : ICombattant
 {
-  //Prop
+  #region Propriétés
 
+  //Prop
   public string Pseudo { get; protected init; }
   public int MaxPv { get; protected set; }
   public int PvActuels { get; protected set; }
@@ -20,6 +21,7 @@ internal abstract class Combattant : ICombattant
   public int RegenValeur { get; protected set; } = 5;
 
   private De _deDegats;
+  private De _critique;
 
   public bool IsAlive
   {
@@ -31,6 +33,10 @@ internal abstract class Combattant : ICombattant
     get { return Ressource >= CoutAttaqueLourde; }
   }
 
+  #endregion
+
+  #region Constructeurs
+
   //Constructeurs
 
   protected Combattant(int maxPv, string pseudo)
@@ -39,33 +45,50 @@ internal abstract class Combattant : ICombattant
     PvActuels = maxPv;
     Pseudo = pseudo;
     Ressource = RessourceMax;
-    _deDegats = new De(1, 6);
+    _deDegats = new De(1, 8);
+    _critique = new De(1, 20);
   }
 
-  //Methodes
+  #endregion
 
-  public void Attaquer(ICombattant cible)
+  #region Methodes
+  
+  #region Attaquer
+  public int Attaquer(ICombattant cible)
   {
     if (cible == null)
-      return;
+      return 0;
 
     if (!IsAlive)
-      return;
-
+      return 0;
+    //TODO: Gerer les critiques dans une méthode avec bool is critique.
     int degats = AttaqueBase + _deDegats.Lancer();
+    int critique = _critique.Lancer();
+    if (critique == 4)
+    {
+      degats = degats * 2;
+    }
+
     cible.RecevoirDegats(degats);
+    return degats;
   }
-  public void AttaqueLourde(ICombattant cible)
+  #endregion
+  
+  #region AttaqueLourde
+  public int AttaqueLourde(ICombattant cible)
   {
     if (cible == null || !IsAlive || !AtkLourdeOk)
-      return;
+      return 0;
 
     int atk = AttaqueBase + _deDegats.Lancer();
     int degats = atk + atk / 2;
     cible.RecevoirDegats(degats);
     Ressource -= CoutAttaqueLourde;
+    return degats;
   }
-
+  #endregion
+  
+  #region RecevoirDegats
   public virtual void RecevoirDegats(int degats)
   {
     if (PvActuels <= 0)
@@ -80,17 +103,23 @@ internal abstract class Combattant : ICombattant
       PvActuels = 0;
     }
   }
-
+  #endregion
+  
+  #region RegenRessource
   public virtual void RegenRessource()
   {
     if (Ressource >= RessourceMax)
     {
       return;
     }
+
     Ressource += RegenValeur;
     if (Ressource > RessourceMax)
     {
       Ressource = RessourceMax;
     }
   }
+  #endregion
+
+  #endregion
 }

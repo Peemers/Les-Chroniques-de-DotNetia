@@ -13,6 +13,6 @@ public interface ICombattant
     public bool IsAlive { get; }
 
 
-    void Attaquer(ICombattant cible);
+    int Attaquer(ICombattant cible);
     void RecevoirDegats(int degats);
 }
