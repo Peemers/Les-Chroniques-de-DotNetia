@@ -1,4 +1,5 @@
 ﻿using Les_Chroniques_de_DotNetia.Interfaces;
+using Les_Chroniques_de_DotNetia.Utils;
 
 // ReSharper disable All
 
@@ -18,6 +19,8 @@ internal abstract class Combattant : ICombattant
   public int CoutAttaqueLourde { get; protected set; } = 10;
   public int RegenValeur { get; protected set; } = 5;
 
+  private De _deDegats;
+
   public bool IsAlive
   {
     get { return PvActuels > 0; }
@@ -36,6 +39,7 @@ internal abstract class Combattant : ICombattant
     PvActuels = maxPv;
     Pseudo = pseudo;
     Ressource = RessourceMax;
+    _deDegats = new De(1, 6);
   }
 
   //Methodes
@@ -48,33 +52,18 @@ internal abstract class Combattant : ICombattant
     if (!IsAlive)
       return;
 
-    int degats = AttaqueBase;
+    int degats = AttaqueBase + _deDegats.Lancer();
     cible.RecevoirDegats(degats);
   }
-
   public void AttaqueLourde(ICombattant cible)
   {
-    if (cible == null)
-    {
+    if (cible == null || !IsAlive || !AtkLourdeOk)
       return;
-    }
 
-    if (!IsAlive)
-    {
-      return;
-    }
-
-    if (!AtkLourdeOk)
-    {
-      return;
-    }
-
-    if (AtkLourdeOk)
-    {
-      int degats = AttaqueBase + AttaqueBase / 2;
-      cible.RecevoirDegats(degats);
-      Ressource = Ressource - CoutAttaqueLourde;
-    }
+    int atk = AttaqueBase + _deDegats.Lancer();
+    int degats = atk + atk / 2;
+    cible.RecevoirDegats(degats);
+    Ressource -= CoutAttaqueLourde;
   }
 
   public virtual void RecevoirDegats(int degats)
