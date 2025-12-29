@@ -7,14 +7,13 @@ namespace Les_Chroniques_de_DotNetia.Models;
 
 internal class Ennemi : Combattant
 {
-    //Prop
+  //Prop
 
-    //Constructeurs
+  //Constructeurs
 
-    internal Ennemi(int maxPv) : base (maxPv)
-    {
-        
-    }
-
-    //Methodes    
+  internal Ennemi(int maxPv, string pseudo) : base(maxPv, pseudo)
+  {
+  }
+  
+  //Methodes    
 }
