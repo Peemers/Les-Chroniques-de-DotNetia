@@ -2,14 +2,13 @@
 
 internal class Joueur : Combattant
 {
-    //Prop
+  //Prop
 
-    //Constructeurs
+  //Constructeurs
 
-    internal Joueur(int maxPv, string pseudo) : base(maxPv, pseudo)
-    {
+  internal Joueur(int maxPv, string pseudo) : base(maxPv, pseudo)
+  {
+  }
 
-    }
-
-    //Methodes    
+  //Methodes    
 }
