@@ -4,15 +4,14 @@ namespace Les_Chroniques_de_DotNetia.Utils;
 public class De
 {
 
-  //random
+  //champs
   
-  private static readonly Random _random = new Random();
-  
-  
+  private static readonly Random _random = new Random(); //random
+ 
   //prop
 
   public int Minimum { get; protected init; } = 1;
-  public int Maximum { get; protected init; } = 6;
+  public int Maximum { get; protected init; } = 8;
 
   //Constructeurs
 
@@ -21,9 +20,11 @@ public class De
     Minimum = minimum;
     Maximum = maximum;
   }
+  
+  //Methodes
 
   public int Lancer()
   {
-    return _random.Next(Maximum - Minimum + 1);  
+    return _random.Next(Minimum, Maximum+ 1);  
   }
 }
