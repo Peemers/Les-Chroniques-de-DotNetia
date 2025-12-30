@@ -27,7 +27,7 @@ internal abstract class Combattant : ICombattant
   {
     get { return PvActuels > 0; }
   }
-
+  
   public bool AtkLourdeOk
   {
     get { return Ressource >= CoutAttaqueLourde; }
@@ -48,33 +48,35 @@ internal abstract class Combattant : ICombattant
     _deDegats = new De(1, 8);
     _critique = new De(1, 20);
   }
-
+  
   #endregion
 
   #region Methodes
-  
+
   #region Attaquer
+
   public int Attaquer(ICombattant cible)
   {
-    if (cible == null)
+    if (cible == null || !IsAlive)
       return 0;
-
-    if (!IsAlive)
-      return 0;
-    //TODO: Gerer les critiques dans une méthode avec bool is critique.
+    
     int degats = AttaqueBase + _deDegats.Lancer();
-    int critique = _critique.Lancer();
-    if (critique == 4)
+    int jetCritique = _critique.Lancer();
+    
+    if (jetCritique == 20)
     {
       degats = degats * 2;
     }
-
+    
     cible.RecevoirDegats(degats);
+    
     return degats;
   }
+
   #endregion
-  
+
   #region AttaqueLourde
+
   public int AttaqueLourde(ICombattant cible)
   {
     if (cible == null || !IsAlive || !AtkLourdeOk)
@@ -86,9 +88,11 @@ internal abstract class Combattant : ICombattant
     Ressource -= CoutAttaqueLourde;
     return degats;
   }
+
   #endregion
-  
+
   #region RecevoirDegats
+
   public virtual void RecevoirDegats(int degats)
   {
     if (PvActuels <= 0)
@@ -103,9 +107,11 @@ internal abstract class Combattant : ICombattant
       PvActuels = 0;
     }
   }
+
   #endregion
-  
+
   #region RegenRessource
+
   public virtual void RegenRessource()
   {
     if (Ressource >= RessourceMax)
@@ -119,6 +125,7 @@ internal abstract class Combattant : ICombattant
       Ressource = RessourceMax;
     }
   }
+
   #endregion
 
   #endregion
