@@ -60,6 +60,3 @@ while (j1.PvActuels > 0 && e1.PvActuels > 0)
   Console.WriteLine("Appuyez sur entrée pour continuer");
   Console.ReadLine();
 }
-
-
-

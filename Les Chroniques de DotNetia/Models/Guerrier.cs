@@ -1,4 +1,5 @@
 ﻿// ReSharper disable All
+
 namespace Les_Chroniques_de_DotNetia.Models;
 
 internal class Guerrier : Joueur
@@ -7,6 +8,8 @@ internal class Guerrier : Joueur
   public int Rage { get; protected set; }
   public int RageMax { get; } = 100;
 
+  private const int GagnerRageMontant = 10; 
+  
   //Configuration Berserk
   private const double SeuilPvBas = 0.30; // 30 %
 
@@ -33,9 +36,9 @@ internal class Guerrier : Joueur
   }
 
   //Gestion de la rage
-  protected void GagnerRage(int montant)
+  protected void GagnerRage()
   {
-    Rage += montant;
+    Rage += GagnerRageMontant;
     if (Rage > RageMax)
       Rage = RageMax;
   }
@@ -48,4 +51,20 @@ internal class Guerrier : Joueur
     Rage -= cout;
     return true;
   }
+
+  //OverRide
+
+  protected override void ApresAttaque()
+  {
+    GagnerRage();
+  }
+
+  protected override double MultiplicateurDegats
+  {
+    get { return BonusDegats; }
+  }
+  
+  protected override double MultiplicateurDegatsRecus => ReductionDegats;
+
+  
 }

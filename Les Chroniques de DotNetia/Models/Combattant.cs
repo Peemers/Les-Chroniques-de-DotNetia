@@ -27,11 +27,14 @@ internal abstract class Combattant : ICombattant
   {
     get { return PvActuels > 0; }
   }
-  
+
   public bool AtkLourdeOk
   {
     get { return Ressource >= CoutAttaqueLourde; }
   }
+
+  protected virtual double MultiplicateurDegats => 1.0;
+  protected virtual double MultiplicateurDegatsRecus => 1.0;
 
   #endregion
 
@@ -48,7 +51,7 @@ internal abstract class Combattant : ICombattant
     _deDegats = new De(1, 8);
     _critique = new De(1, 20);
   }
-  
+
   #endregion
 
   #region Methodes
@@ -59,18 +62,20 @@ internal abstract class Combattant : ICombattant
   {
     if (cible == null || !IsAlive)
       return 0;
-    
+
     int degats = AttaqueBase + _deDegats.Lancer();
     int jetCritique = _critique.Lancer();
-    
+
+    int degatsFinaux = degats;
+
     if (jetCritique == 20)
     {
-      degats = degats * 2;
+      degatsFinaux = degatsFinaux * 2;
     }
-    
-    cible.RecevoirDegats(degats);
-    
-    return degats;
+
+    cible.RecevoirDegats(degatsFinaux);
+
+    return degatsFinaux;
   }
 
   #endregion
@@ -84,9 +89,21 @@ internal abstract class Combattant : ICombattant
 
     int atk = AttaqueBase + _deDegats.Lancer();
     int degats = atk + atk / 2;
-    cible.RecevoirDegats(degats);
+    int jetCritique = _critique.Lancer();
+
+    int degatsFinaux = degats;
+
+    degatsFinaux = (int)(degatsFinaux * MultiplicateurDegats);
+
+
+    if (jetCritique == 20)
+    {
+      degatsFinaux = degatsFinaux * 2;
+    }
+
+    cible.RecevoirDegats(degatsFinaux);
     Ressource -= CoutAttaqueLourde;
-    return degats;
+    return degatsFinaux;
   }
 
   #endregion
@@ -96,16 +113,17 @@ internal abstract class Combattant : ICombattant
   public virtual void RecevoirDegats(int degats)
   {
     if (PvActuels <= 0)
-    {
       return;
-    }
 
-    PvActuels -= degats;
+    int degatsFinaux = degats;
+    
+    degatsFinaux = (int)(degats * MultiplicateurDegatsRecus);
+    
+
+    PvActuels -= degatsFinaux;
 
     if (PvActuels < 0)
-    {
       PvActuels = 0;
-    }
   }
 
   #endregion
@@ -124,6 +142,14 @@ internal abstract class Combattant : ICombattant
     {
       Ressource = RessourceMax;
     }
+  }
+
+  #endregion
+
+  #region ApresAttaque
+
+  protected virtual void ApresAttaque()
+  {
   }
 
   #endregion
