@@ -1,6 +1,6 @@
 ﻿namespace Les_Chroniques_de_DotNetia.Models;
 
-internal class Joueur : Combattant
+internal abstract class Joueur : Combattant
 {
   //Prop
 
