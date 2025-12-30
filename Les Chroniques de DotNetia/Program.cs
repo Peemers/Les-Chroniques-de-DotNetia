@@ -2,7 +2,7 @@
 using Les_Chroniques_de_DotNetia.Models;
 using Les_Chroniques_de_DotNetia.Interfaces;
 
-Joueur j1 = new Joueur(400, "Peemers");
+Joueur j1 = new Guerrier("Peemers");
 Ennemi e1 = new Ennemi(450, "Dragon");
 
 while (j1.PvActuels > 0 && e1.PvActuels > 0)
