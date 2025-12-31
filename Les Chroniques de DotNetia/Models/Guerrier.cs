@@ -8,8 +8,9 @@ internal class Guerrier : Joueur
   public int Rage { get; protected set; }
   public int RageMax { get; } = 100;
 
-  private const int GagnerRageMontant = 10; 
-  
+  private const int GagnerRageMontant = 10;
+  private int rageOut { get; set; } = 14;
+
   //Configuration Berserk
   private const double SeuilPvBas = 0.30; // 30 %
 
@@ -43,28 +44,43 @@ internal class Guerrier : Joueur
       Rage = RageMax;
   }
 
-  protected bool DepenserRage(int cout)
+  protected bool DepenserRage()
   {
-    if (Rage < cout)
+    if (Rage < rageOut)
       return false;
 
-    Rage -= cout;
+    Rage -= rageOut;
     return true;
   }
-
+  
   //OverRide
 
-  protected override void ApresAttaque()
+  protected override void ApresAttaque() //gain de rage apres attaque
   {
-    GagnerRage();
+    Rage = Rage + GagnerRageMontant;
+    if (Rage > RageMax)
+      Rage = RageMax;
+  }
+
+  protected override void ApresAttaqueLourde()
+  {
+    Rage = Rage + GagnerRageMontant - rageOut;
+    if (Rage < 0)
+      Rage = 0;
+
+    if (Rage > RageMax)
+      Rage = RageMax;
+  }
+
+  protected override bool PeutAttaquerLourd()
+  {
+    return Rage >= rageOut;
   }
 
   protected override double MultiplicateurDegats
   {
     get { return BonusDegats; }
   }
-  
-  protected override double MultiplicateurDegatsRecus => ReductionDegats;
 
-  
+  protected override double MultiplicateurDegatsRecus => ReductionDegats;
 }
