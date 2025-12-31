@@ -15,5 +15,10 @@ internal class Ennemi : Combattant
   {
   }
   
-  //Methodes    
+  //Methodes
+  
+  protected override bool PeutAttaquerLourd()
+  {
+    return true;
+  }
 }
