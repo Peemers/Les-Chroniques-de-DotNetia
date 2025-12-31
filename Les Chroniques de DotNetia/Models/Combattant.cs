@@ -14,11 +14,7 @@ internal abstract class Combattant : ICombattant
   public int MaxPv { get; protected set; }
   public int PvActuels { get; protected set; }
   public int AttaqueBase { get; protected init; } = 2;
-  public int Ressource { get; protected set; }
 
-  public int RessourceMax { get; protected set; } = 50; //parceque ça pourra etre modifié avec le niveau, des objets, ou de l'equipement éventuel.
-  public int CoutAttaqueLourde { get; protected set; } = 10;
-  public int RegenValeur { get; protected set; } = 5;
 
   private De _deDegats;
   private De _critique;
@@ -27,11 +23,9 @@ internal abstract class Combattant : ICombattant
   {
     get { return PvActuels > 0; }
   }
-  
-  public bool AtkLourdeOk
-  {
-    get { return Ressource >= CoutAttaqueLourde; }
-  }
+
+  protected virtual double MultiplicateurDegats => 1.0;
+  protected virtual double MultiplicateurDegatsRecus => 1.0;
 
   #endregion
 
@@ -44,11 +38,10 @@ internal abstract class Combattant : ICombattant
     MaxPv = maxPv;
     PvActuels = maxPv;
     Pseudo = pseudo;
-    Ressource = RessourceMax;
     _deDegats = new De(1, 8);
     _critique = new De(1, 20);
   }
-  
+
   #endregion
 
   #region Methodes
@@ -59,18 +52,22 @@ internal abstract class Combattant : ICombattant
   {
     if (cible == null || !IsAlive)
       return 0;
-    
+
     int degats = AttaqueBase + _deDegats.Lancer();
     int jetCritique = _critique.Lancer();
-    
+
+    int degatsFinaux = degats;
+    degatsFinaux = (int)(degatsFinaux * MultiplicateurDegats);
+
     if (jetCritique == 20)
     {
-      degats = degats * 2;
+      degatsFinaux = degatsFinaux * 2;
     }
-    
-    cible.RecevoirDegats(degats);
-    
-    return degats;
+
+    cible.RecevoirDegats(degatsFinaux);
+    ApresAttaque();
+
+    return degatsFinaux;
   }
 
   #endregion
@@ -79,14 +76,26 @@ internal abstract class Combattant : ICombattant
 
   public int AttaqueLourde(ICombattant cible)
   {
-    if (cible == null || !IsAlive || !AtkLourdeOk)
+    if (cible == null || !IsAlive || !PeutAttaquerLourd())
       return 0;
 
     int atk = AttaqueBase + _deDegats.Lancer();
     int degats = atk + atk / 2;
-    cible.RecevoirDegats(degats);
-    Ressource -= CoutAttaqueLourde;
-    return degats;
+    int jetCritique = _critique.Lancer();
+
+    int degatsFinaux = degats;
+
+    degatsFinaux = (int)(degatsFinaux * MultiplicateurDegats);
+
+
+    if (jetCritique == 20)
+    {
+      degatsFinaux = degatsFinaux * 2;
+    }
+
+    cible.RecevoirDegats(degatsFinaux);
+    ApresAttaqueLourde();
+    return degatsFinaux;
   }
 
   #endregion
@@ -96,37 +105,35 @@ internal abstract class Combattant : ICombattant
   public virtual void RecevoirDegats(int degats)
   {
     if (PvActuels <= 0)
-    {
       return;
-    }
 
-    PvActuels -= degats;
+    int degatsFinaux = degats;
+
+    degatsFinaux = (int)(degats * MultiplicateurDegatsRecus);
+
+
+    PvActuels -= degatsFinaux;
 
     if (PvActuels < 0)
-    {
       PvActuels = 0;
-    }
   }
 
   #endregion
 
-  #region RegenRessource
 
-  public virtual void RegenRessource()
+  #region ApresAttaque
+
+  protected virtual void ApresAttaque()
   {
-    if (Ressource >= RessourceMax)
-    {
-      return;
-    }
-
-    Ressource += RegenValeur;
-    if (Ressource > RessourceMax)
-    {
-      Ressource = RessourceMax;
-    }
   }
 
   #endregion
+
+  protected virtual void ApresAttaqueLourde()
+  {
+  }
+
+  protected abstract bool PeutAttaquerLourd();
 
   #endregion
 }

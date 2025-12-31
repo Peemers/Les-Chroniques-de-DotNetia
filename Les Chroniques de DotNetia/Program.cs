@@ -9,7 +9,7 @@ while (j1.PvActuels > 0 && e1.PvActuels > 0)
 {
   Console.Clear();
   Console.WriteLine($" ---Tour de {j1.Pseudo}---\n");
-  Console.WriteLine($"Point de vie = {j1.PvActuels} \nRessource = {j1.Ressource} \nPoint de vie de {e1.Pseudo} =  {e1.PvActuels}\n");
+  Console.WriteLine($"Point de vie = {j1.PvActuels} \nPoint de vie de {e1.Pseudo} =  {e1.PvActuels}\n");
   Console.WriteLine($"Choisissez votre Action : \n1 - Attaque normale \n2 - Attaque lourde-\nR/r - Régénérer la ressource \nQ/q pour quitter");
 
   string input = Console.ReadLine()!;
@@ -59,7 +59,6 @@ while (j1.PvActuels > 0 && e1.PvActuels > 0)
   Console.WriteLine($"Il reste {j1.PvActuels} PV à {j1.Pseudo}\n");
   Console.WriteLine("Appuyez sur entrée pour continuer");
   Console.ReadLine();
+  
+  
 }
-
-
-
