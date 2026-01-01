@@ -5,7 +5,7 @@ using Les_Chroniques_de_DotNetia.Utils;
 
 namespace Les_Chroniques_de_DotNetia.Models;
 
-internal abstract class Combattant : ICombattant
+internal abstract class Combattant : ICombattant, ICible
 {
   #region Propriétés
 
@@ -14,6 +14,7 @@ internal abstract class Combattant : ICombattant
   public int MaxPv { get; protected set; }
   public int PvActuels { get; protected set; }
   public int AttaqueBase { get; protected init; } = 2;
+  protected abstract int BasePv { get; }
 
 
   private De _deDegats; //ajout des dés dans logique de combat
@@ -33,10 +34,10 @@ internal abstract class Combattant : ICombattant
 
   //Constructeurs
 
-  protected Combattant(int maxPv, string pseudo)
+  protected Combattant(string pseudo)
   {
-    MaxPv = maxPv;
-    PvActuels = maxPv;
+    MaxPv = BasePv;
+    PvActuels = MaxPv;
     Pseudo = pseudo;
     _deDegats = new De(1, 8);
     _critique = new De(1, 20);
@@ -48,7 +49,7 @@ internal abstract class Combattant : ICombattant
 
   #region Attaquer
 
-  public int Attaquer(ICombattant cible)
+  public int Attaquer(ICible cible)
   {
     if (cible == null || !IsAlive)
       return 0;
@@ -65,7 +66,7 @@ internal abstract class Combattant : ICombattant
     }
 
     cible.RecevoirDegats(degatsFinaux);
-    ApresAttaque();       //Override par les enfants
+    ApresAttaque(); //Override par les enfants
 
     return degatsFinaux;
   }
@@ -74,7 +75,7 @@ internal abstract class Combattant : ICombattant
 
   #region AttaqueLourde
 
-  public int AttaqueLourde(ICombattant cible)
+  public int AttaqueLourde(ICible cible)
   {
     if (cible == null || !IsAlive || !PeutAttaquerLourd())
       return 0;
@@ -102,16 +103,12 @@ internal abstract class Combattant : ICombattant
 
   #region RecevoirDegats
 
-  public virtual void RecevoirDegats(int degats)
+  void ICible.RecevoirDegats(int degats)
   {
     if (PvActuels <= 0)
       return;
 
-    int degatsFinaux = degats;
-
-    degatsFinaux = (int)(degatsFinaux * MultiplicateurDegatsRecus);
-
-
+    int degatsFinaux = (int)(degats * MultiplicateurDegatsRecus);
     PvActuels -= degatsFinaux;
 
     if (PvActuels < 0)
@@ -119,7 +116,6 @@ internal abstract class Combattant : ICombattant
   }
 
   #endregion
-
 
   #region ApresAttaque
 
@@ -129,11 +125,19 @@ internal abstract class Combattant : ICombattant
 
   #endregion
 
+  #region ApresAttaqueLourde
+
   protected virtual void ApresAttaqueLourde() //Overridé par les enfants
   {
   }
 
+  #endregion
+
+  #region PeutAttaquerLourd
+
   protected abstract bool PeutAttaquerLourd(); //Overridé par les enfants
+
+  #endregion
 
   #endregion
 }

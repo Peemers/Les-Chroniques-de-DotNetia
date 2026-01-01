@@ -23,11 +23,11 @@ internal class Voleur : Joueur
 
   //Constructeur
 
-  public Voleur(string pseudo) : base(450, pseudo)
+  public Voleur(string pseudo) : base(pseudo)
   {
     Energie = EnergieMax;
   }
-  
+
   //!METHODES
   //?Fonctionnement
 
@@ -35,8 +35,8 @@ internal class Voleur : Joueur
   {
     PtCombo = 0;
   }
-  
-  
+
+
   //?Override
 
   protected override void ApresAttaque()
@@ -55,8 +55,8 @@ internal class Voleur : Joueur
 
     if (Energie > EnergieMax)
       Energie = EnergieMax;
-    
-    if(PtCombo >= 5)
+
+    if (PtCombo >= 5)
     {
       ResetCombo();
     }
@@ -68,4 +68,6 @@ internal class Voleur : Joueur
   }
 
   protected override double MultiplicateurDegats => BonusDegats;
+
+  protected override int BasePv => 450;
 }

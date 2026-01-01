@@ -37,7 +37,7 @@ internal class Guerrier : Joueur
   #region Constructeurs
 
   //Constructeur
-  public Guerrier(string pseudo) : base(650, pseudo)
+  public Guerrier(string pseudo) : base(pseudo)
   {
     Rage = 0;
   }
@@ -78,6 +78,8 @@ internal class Guerrier : Joueur
   }
 
   protected override double MultiplicateurDegatsRecus => ReductionDegats;
+
+  protected override int BasePv => 600;
 
   #endregion
 }

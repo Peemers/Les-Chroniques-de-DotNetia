@@ -6,7 +6,7 @@ internal abstract class Joueur : Combattant
 
   //Constructeurs
 
-  internal Joueur(int maxPv, string pseudo) : base(maxPv, pseudo)
+  internal Joueur(string pseudo) : base(pseudo)
   {
   }
 

@@ -15,10 +15,10 @@ internal class Mage : Joueur
 
   public int ManaIn { get; protected set; } = 5; //peut etre modifié plus tard par des potions ou equipements
   public int ManaOut { get; private set; } = 20;
-  
+
   protected int CoutAttaqueLourdeReel => ManaOut; // plus tard : modifs / => = get
 
-  
+
   //(PROP) Bonus de Classe
   private const double seuilManaHaut = 0.70; //si mana par dessus 70% appelé juste en bas
 
@@ -39,9 +39,11 @@ internal class Mage : Joueur
     get { return BonusAttaque; }
   }
 
+  protected override int BasePv => 350;
+
   //Constructeurs
 
-  public Mage(string pseudo) : base(350, pseudo)
+  public Mage(string pseudo) : base(pseudo)
   {
     Mana = MaxMana;
   }
@@ -50,7 +52,7 @@ internal class Mage : Joueur
   //(METHODES) Bonus de classe
 
   //(METHODES) fonctionnement
-  
+
   //(METHODES) Override
 
   protected override void ApresAttaque() //Override de la classe Combattant.ApresAttaque
