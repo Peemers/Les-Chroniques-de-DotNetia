@@ -171,4 +171,6 @@ internal abstract class Combattant : ICombattant, ICible
   {
   }
   #endregion
+  
+  //fait chier git putain !!!!!
 }
