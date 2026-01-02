@@ -5,7 +5,7 @@ using Les_Chroniques_de_DotNetia.Utils;
 
 namespace Les_Chroniques_de_DotNetia.Models;
 
-internal abstract class Combattant : ICombattant
+internal abstract class Combattant : ICombattant, ICible
 {
   #region Propriétés
 
@@ -14,18 +14,19 @@ internal abstract class Combattant : ICombattant
   public int MaxPv { get; protected set; }
   public int PvActuels { get; protected set; }
   public int AttaqueBase { get; protected init; } = 2;
+  protected abstract int BasePv { get; } // pv overridé par enfants
 
 
-  private De _deDegats;
-  private De _critique;
+  private De _deDegats; //ajout des dés dans logique de combat
+  private De _critique; //ajout des dés dans logique de combat
 
-  public bool IsAlive
+  public bool IsAlive // True si Pv au dessus de 0
   {
     get { return PvActuels > 0; }
   }
 
-  protected virtual double MultiplicateurDegats => 1.0;
-  protected virtual double MultiplicateurDegatsRecus => 1.0;
+  protected virtual double MultiplicateurDegats => 1.0; //prop Overridé chez les enfants
+  protected virtual double MultiplicateurDegatsRecus => 1.0; // idem
 
   #endregion
 
@@ -33,10 +34,10 @@ internal abstract class Combattant : ICombattant
 
   //Constructeurs
 
-  protected Combattant(int maxPv, string pseudo)
+  protected Combattant(string pseudo)
   {
-    MaxPv = maxPv;
-    PvActuels = maxPv;
+    MaxPv = BasePv;
+    PvActuels = MaxPv;
     Pseudo = pseudo;
     _deDegats = new De(1, 8);
     _critique = new De(1, 20);
@@ -44,20 +45,20 @@ internal abstract class Combattant : ICombattant
 
   #endregion
 
-  #region Methodes
+  //Methodes
 
   #region Attaquer
 
-  public int Attaquer(ICombattant cible)
+  public virtual int Attaquer(ICible cible)
   {
     if (cible == null || !IsAlive)
       return 0;
 
-    int degats = AttaqueBase + _deDegats.Lancer();
-    int jetCritique = _critique.Lancer();
+    int degats = AttaqueBase + _deDegats.Lancer(); //utilisation des dés
+    int jetCritique = _critique.Lancer(); //utilisation des dés
 
     int degatsFinaux = degats;
-    degatsFinaux = (int)(degatsFinaux * MultiplicateurDegats);
+    degatsFinaux = (int)(degatsFinaux * MultiplicateurDegats); //cast du double et Multip Overridé par les enfants
 
     if (jetCritique == 20)
     {
@@ -65,7 +66,7 @@ internal abstract class Combattant : ICombattant
     }
 
     cible.RecevoirDegats(degatsFinaux);
-    ApresAttaque();
+    ApresAttaque(); //Override par les enfants
 
     return degatsFinaux;
   }
@@ -74,7 +75,7 @@ internal abstract class Combattant : ICombattant
 
   #region AttaqueLourde
 
-  public int AttaqueLourde(ICombattant cible)
+  public int AttaqueLourde(ICible cible)
   {
     if (cible == null || !IsAlive || !PeutAttaquerLourd())
       return 0;
@@ -100,19 +101,16 @@ internal abstract class Combattant : ICombattant
 
   #endregion
 
-  #region RecevoirDegats
+  #region RecevoirDegats()
 
-  public virtual void RecevoirDegats(int degats)
+  void ICible.RecevoirDegats(int degats)
   {
     if (PvActuels <= 0)
       return;
 
-    int degatsFinaux = degats;
-
-    degatsFinaux = (int)(degats * MultiplicateurDegatsRecus);
-
-
+    int degatsFinaux = (int)(degats * MultiplicateurDegatsRecus);
     PvActuels -= degatsFinaux;
+    ApresReceptionDegats();
 
     if (PvActuels < 0)
       PvActuels = 0;
@@ -120,20 +118,57 @@ internal abstract class Combattant : ICombattant
 
   #endregion
 
+  #region AvantAttaque()
 
-  #region ApresAttaque
-
-  protected virtual void ApresAttaque()
+  protected virtual void AvantAttaque()
   {
   }
 
   #endregion
 
-  protected virtual void ApresAttaqueLourde()
+  #region ApresAttaque()
+
+  protected virtual void ApresAttaque() //Overridé par les enfants
   {
   }
 
-  protected abstract bool PeutAttaquerLourd();
+  #endregion
+
+  #region ApresAttaqueLourde()
+
+  protected virtual void ApresAttaqueLourde() //Overridé par les enfants
+  {
+  }
+
+  #endregion
+
+  #region ApresReceptionDegats()
+
+  protected virtual void ApresReceptionDegats()
+  {
+  }
+
+  #endregion
+
+  #region FinTour()
+
+  protected virtual void FinTour()
+  {
+  }
+
+  #region PeutAttaquerLourd()
+
+  protected virtual bool PeutAttaquerLourd() => false; //Overridé par les enfants
+
+  #endregion
+
+  #endregion
+
+  #region DebutTour()
+
+  protected virtual void DebutTour()
+  {
+  }
 
   #endregion
 }

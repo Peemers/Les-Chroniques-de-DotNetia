@@ -5,15 +5,16 @@ using System.Text;
 
 namespace Les_Chroniques_de_DotNetia.Models;
 
-internal class Ennemi : Combattant
+internal abstract class Ennemi : Combattant
 {
   //Prop
 
   //Constructeurs
 
-  internal Ennemi(int maxPv, string pseudo) : base(maxPv, pseudo)
+  internal Ennemi(string pseudo) : base(pseudo)
   {
   }
-  
-  //Methodes    
+
+  //Methodes
+
 }

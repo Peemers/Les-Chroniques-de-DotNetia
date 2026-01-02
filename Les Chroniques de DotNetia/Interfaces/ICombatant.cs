@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Les_Chroniques_de_DotNetia.Interfaces;
 
-public interface ICombattant
+internal interface ICombattant
 {
     public string Pseudo { get; }
     public int MaxPv { get; }
@@ -13,6 +13,6 @@ public interface ICombattant
     public bool IsAlive { get; }
 
 
-    int Attaquer(ICombattant cible);
-    void RecevoirDegats(int degats);
+    int Attaquer(ICible cible);
+    
 }
