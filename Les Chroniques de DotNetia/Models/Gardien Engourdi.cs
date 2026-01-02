@@ -15,7 +15,7 @@ internal class GardienEngourdi : Ennemi
 
   //constructeur
 
-  internal GardienEngourdi(string pseudo) : base(pseudo)
+  internal GardienEngourdi(string pseudo) : base("Gardien Engourdi")
   {
   }
 
