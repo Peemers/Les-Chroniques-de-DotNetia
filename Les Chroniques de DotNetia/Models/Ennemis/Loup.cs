@@ -10,9 +10,9 @@ internal class Loup : Ennemi
   
   //override
 
-  protected override int BasePv => 350;
+  protected override int BasePv => 550;
 
-  protected override double MultiplicateurDegats => 1.3;
+  protected override double MultiplicateurDegats => 0.6;
   //Methodes
 
 }
