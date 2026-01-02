@@ -14,7 +14,7 @@ internal abstract class Combattant : ICombattant, ICible
   public int MaxPv { get; protected set; }
   public int PvActuels { get; protected set; }
   public int AttaqueBase { get; protected init; } = 2;
-  protected abstract int BasePv { get; }
+  protected abstract int BasePv { get; } // pv overridé par enfants
 
 
   private De _deDegats; //ajout des dés dans logique de combat
@@ -135,7 +135,7 @@ internal abstract class Combattant : ICombattant, ICible
 
   #region PeutAttaquerLourd
 
-  protected abstract bool PeutAttaquerLourd(); //Overridé par les enfants
+  protected virtual bool PeutAttaquerLourd() => false; //Overridé par les enfants
 
   #endregion
 
