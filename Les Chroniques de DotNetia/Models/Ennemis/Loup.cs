@@ -1,10 +1,10 @@
-﻿namespace Les_Chroniques_de_DotNetia.Models;
+﻿namespace Les_Chroniques_de_DotNetia.Models.Ennemis;
 
-internal class Dragonnet : Ennemi
+internal class Loup : Ennemi
 {
   //Constructeur
 
-  internal Dragonnet(string pseudo) : base("Dragonnet")
+  internal Loup() : base("Dragonnet")
   {
   }
   

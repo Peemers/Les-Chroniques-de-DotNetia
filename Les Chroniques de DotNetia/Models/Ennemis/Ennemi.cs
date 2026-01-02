@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Les_Chroniques_de_DotNetia.Models;
+namespace Les_Chroniques_de_DotNetia.Models.Ennemis;
 
 internal abstract class Ennemi : Combattant
 {

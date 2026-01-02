@@ -8,7 +8,8 @@ Le projet met l’accent sur une **architecture propre**, des **mécaniques de g
 ## 🎯 Objectifs du projet
 
 - Mettre en pratique l’orienté objet en C#
-- Concevoir une hiérarchie claire de classes
+- Concevoir une hié
+- rarchie claire de classes
 - Implémenter des mécaniques de jeu variées (ressources, états, bonus)
 - Fournir une base solide et extensible pour un RPG
 

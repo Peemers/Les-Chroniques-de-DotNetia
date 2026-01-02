@@ -1,6 +1,6 @@
 ﻿using Les_Chroniques_de_DotNetia.Interfaces;
 
-namespace Les_Chroniques_de_DotNetia.Models;
+namespace Les_Chroniques_de_DotNetia.Models.Ennemis;
 
 internal class TraqueurDesFourrés : Ennemi
 {

@@ -7,7 +7,6 @@ public class De
   //champs
   
   private static readonly Random _random = new Random(); //random
- 
   //prop
 
   public int Minimum { get; protected init; } = 1;
