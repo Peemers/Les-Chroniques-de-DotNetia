@@ -13,15 +13,16 @@ internal abstract class Zone
   protected List<Func<Ennemi>> EnnemisPossibles;  
   //constructeur
   
-  protected Zone(string description)
+  protected Zone(string nom, string description)
   {
+    Nom = nom;
     Description = description;
     EnnemisPossibles = new();
   }
   
   //methodes
 
-  private Ennemi GenererEnnemi()
+  public Ennemi GenererEnnemi()
   {
     int index = Random.Shared.Next(EnnemisPossibles.Count);
     return EnnemisPossibles[index]();
