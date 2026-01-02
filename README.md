@@ -1,140 +1,183 @@
-# Les Chroniques de DotNetia ⚔️
 
-Système de combat **orienté objet en C#**, conçu comme un socle extensible pour un jeu de rôle (console ou autre).  
-Le projet met l’accent sur une **architecture propre**, des **mécaniques de gameplay distinctes** et une **logique de combat modulaire**.
+# 🎮 Les Chroniques de DotNetia — Documentation détaillée
 
----
+## 1. Présentation générale
 
-## 🎯 Objectifs du projet
+**Les Chroniques de DotNetia** est un projet de RPG console développé en **C# orienté objet**.
+Il sert de projet pédagogique avancé pour mettre en pratique :
+- l’héritage
+- le polymorphisme
+- les interfaces
+- les classes abstraites
+- la séparation claire des responsabilités
 
-- Mettre en pratique l’orienté objet en C#
-- Concevoir une hiérarchie claire de classes
-- Implémenter des mécaniques de jeu variées (ressources, états, bonus)
-- Fournir une base solide et extensible pour un RPG
-
----
-
-## 🧱 Architecture générale
-
-```text
-Interfaces
- ├─ ICible
- └─ ICombattant
-
-Core
- └─ Combattant (abstrait)
-     ├─ Joueur (abstrait)
-     │   ├─ Guerrier
-     │   ├─ Mage
-     │   └─ Voleur
-     └─ Ennemi (abstrait)
-         ├─ Dragonnet
-         ├─ GardienEngourdi
-         ├─ TraqueurDesFourrés
-         └─ Tombi
-
-Utils
- └─ De (dés aléatoires)
-```
+Le projet est volontairement structuré comme un **socle technique** plutôt qu’un jeu fini.
 
 ---
 
-## 🧩 Concepts clés
+## 2. Architecture globale
 
-### Interfaces
-- **ICible** : tout ce qui peut recevoir des dégâts
-- **ICombattant** : contrat de base pour les entités combattantes
-
-### Combattant
-Classe centrale :
-- gestion des PV
-- attaques normales et lourdes
-- critiques
-- multiplicateurs de dégâts
-- hooks de cycle de tour
-
-### Cycle de tour
-Chaque combattant peut réagir à différents moments :
-- `DebutTour`
-- `AvantAttaque`
-- `ApresAttaque`
-- `ApresAttaqueLourde`
-- `ApresReceptionDegats`
-- `FinTour`
+Le projet est organisé autour de trois piliers :
+- **Combattants** (joueurs et ennemis)
+- **Zones** (environnements et génération)
+- **Infrastructure** (interfaces, utilitaires, point d’entrée)
 
 ---
 
-## 🧙 Classes jouables
+## 3. Interfaces
+
+### ICible
+Représente toute entité pouvant :
+- recevoir des dégâts
+- perdre des points de vie
+- mourir
+
+Cette interface permet de traiter uniformément joueurs et ennemis.
+
+### ICombattant
+Définit les capacités communes :
+- attaquer
+- subir des dégâts
+- participer à un tour de combat
+
+---
+
+## 4. Classe abstraite Combattant
+
+Classe centrale du projet.
+Elle gère :
+- les points de vie (PV max / actuels)
+- l’attaque de base
+- les attaques lourdes
+- la ressource spécifique
+- le cycle de tour
+
+Cette classe expose plusieurs **hooks** permettant aux sous‑classes
+d’altérer leur comportement sans casser la logique globale.
+
+---
+
+## 5. Joueurs
+
+### Joueur (abstraite)
+Base commune à toutes les classes jouables.
+Responsabilités :
+- initialisation des statistiques
+- gestion de la ressource
+- comportement par défaut en combat
 
 ### Guerrier
-- Ressource : **Rage**
-- Mode **Berserk** à bas PV
-- Plus il est en danger, plus il devient puissant
+- Ressource : Rage
+- Monte en puissance à mesure que ses PV baissent
+- Dispose d’un mode Berserk
 
 ### Mage
-- Ressource : **Mana**
-- État **Illuminé** à mana élevée
-- Spécialisé dans les dégâts
+- Ressource : Mana
+- Peut entrer dans un état *Illuminé*
+- Très dépendant de la gestion de ressource
 
 ### Voleur
-- Ressource : **Énergie**
-- Système de **points de combo**
-- Gros burst de dégâts cyclique
+- Ressource : Énergie
+- Fonctionne avec un système de combos
+- Spécialisé dans le burst
 
 ---
 
-## 👹 Ennemis
+## 6. Ennemis
+
+### Ennemi (abstraite)
+Base commune à tous les ennemis.
+Permet :
+- l’unification du comportement
+- l’extension facile de nouveaux ennemis
 
 ### Dragonnet
-- Ennemi simple et offensif
+Ennemi simple orienté dégâts.
 
 ### Gardien Engourdi
-- Protection massive tant qu’il n’a pas été touché
+Très défensif tant qu’il n’a pas été touché.
 
 ### Traqueur des Fourrés
-- Attaques de plus en plus puissantes s’il reste hors de danger
+Plus dangereux lorsqu’il n’est pas menacé.
 
 ### Tombi
-- Approche progressive
-- Une seule attaque, mais dévastatrice
+Possède une attaque unique extrêmement puissante.
 
 ---
 
-## 🎲 Aléatoire
+## 7. Zones
 
-La classe `De` permet de :
-- simuler les dégâts
-- gérer les coups critiques
-- centraliser l’aléatoire du combat
+### Zone (abstraite)
+Représente un environnement de jeu.
+Responsabilités :
+- stocker une description
+- contenir une liste d’ennemis possibles
+- générer dynamiquement des ennemis
 
----
+Les ennemis sont fournis sous forme de **factories (`Func<Ennemi>`)**
+afin d’éviter le couplage fort.
 
-## 🚀 Extensibilité
-
-Le système est pensé pour évoluer :
-- ajout de nouvelles classes
-- IA ennemie
-- buffs / debuffs
-- gestion d’équipes
-- journal de combat
-- boucle de jeu (GameLoop)
-
----
-
-## 🛠️ Technologies
-
-- **Langage** : C#
-- **Paradigme** : Orienté Objet
-- **IDE** : JetBrains Rider / Visual Studio
+### Forêt
+Implémentation concrète d’une zone.
+Spécifie :
+- ses ennemis possibles
+- son ambiance
+- sa difficulté
 
 ---
 
-## 👤 Auteur
+## 8. Génération et aléatoire
 
-**Mathieu**  
-Projet pédagogique – formation développement logiciel  
+### Classe De
+Centralise :
+- le hasard
+- les coups critiques
+- les variations de dégâts
+
+Cette séparation évite la duplication du `Random`
+et facilite l’équilibrage.
 
 ---
 
-> Projet conçu comme un socle technique.  
-> L’objectif n’est pas un jeu finalisé mais une architecture propre, lisible et évolutive.
+## 9. Program.cs
+
+Point d’entrée du projet.
+Actuellement utilisé comme :
+- zone de test
+- simulateur de combats
+- terrain d’expérimentation
+
+À terme, il pourra être remplacé par :
+- une vraie boucle de jeu
+- un gestionnaire de scènes
+
+---
+
+## 10. État actuel du projet
+
+Le projet est :
+- fonctionnel sur le plan technique
+- en cours d’extension
+
+Fonctionnalités prévues :
+- boucle de jeu complète
+- gestion de progression
+- nouvelles zones
+- équilibrage
+
+---
+
+## 11. Objectif pédagogique
+
+Ce projet a pour but :
+- de comprendre **pourquoi** on structure ainsi
+- d’éviter le code procédural déguisé
+- de préparer des projets OO plus complexes
+
+---
+
+## 12. Auteur
+
+Mathieu Peeters  
+Projet personnel – formation développement logiciel
+
