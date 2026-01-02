@@ -45,11 +45,11 @@ internal abstract class Combattant : ICombattant, ICible
 
   #endregion
 
-  #region Methodes
+  //Methodes
 
   #region Attaquer
 
-  public int Attaquer(ICible cible)
+  public virtual int Attaquer(ICible cible)
   {
     if (cible == null || !IsAlive)
       return 0;
@@ -98,10 +98,10 @@ internal abstract class Combattant : ICombattant, ICible
     ApresAttaqueLourde();
     return degatsFinaux;
   }
-
+  
   #endregion
 
-  #region RecevoirDegats
+  #region RecevoirDegats()
 
   void ICible.RecevoirDegats(int degats)
   {
@@ -110,6 +110,7 @@ internal abstract class Combattant : ICombattant, ICible
 
     int degatsFinaux = (int)(degats * MultiplicateurDegatsRecus);
     PvActuels -= degatsFinaux;
+    ApresReceptionDegats();
 
     if (PvActuels < 0)
       PvActuels = 0;
@@ -117,7 +118,16 @@ internal abstract class Combattant : ICombattant, ICible
 
   #endregion
 
-  #region ApresAttaque
+  #region AvantAttaque()
+
+  protected virtual void AvantAttaque()
+  {
+    
+  }
+
+  #endregion
+  
+  #region ApresAttaque()
 
   protected virtual void ApresAttaque() //Overridé par les enfants
   {
@@ -125,7 +135,7 @@ internal abstract class Combattant : ICombattant, ICible
 
   #endregion
 
-  #region ApresAttaqueLourde
+  #region ApresAttaqueLourde()
 
   protected virtual void ApresAttaqueLourde() //Overridé par les enfants
   {
@@ -133,11 +143,32 @@ internal abstract class Combattant : ICombattant, ICible
 
   #endregion
 
-  #region PeutAttaquerLourd
+  #region ApresReceptionDegats()
+
+  protected virtual void ApresReceptionDegats()
+  {
+  }
+
+  #endregion
+  
+  #region FinTour()
+
+  protected virtual void FinTour()
+  {
+  }
+
+  #region PeutAttaquerLourd()
 
   protected virtual bool PeutAttaquerLourd() => false; //Overridé par les enfants
 
   #endregion
 
+  #endregion
+
+  #region DebutTour()
+
+  protected virtual void DebutTour()
+  {
+  }
   #endregion
 }
