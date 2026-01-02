@@ -1,6 +1,15 @@
-﻿using Les_Chroniques_de_DotNetia.Models;
+﻿using Les_Chroniques_de_DotNetia.Models.Zones;
 
-Joueur j1 = new Guerrier("Peemers");
-Joueur j2 = new Mage("Caro");
+class Program
+{
+  static void Main()
+  {
+    Zone zoneActuelle = new Foret();
 
-Combattant j3 = new Mage("edfrgqr");
+    Console.WriteLine(zoneActuelle.Nom);
+    Console.WriteLine(zoneActuelle.Description);
+
+    var ennemi = zoneActuelle.GenererEnnemi();
+    Console.WriteLine($"Un {ennemi.Pseudo} apparaît !");
+  }
+}
