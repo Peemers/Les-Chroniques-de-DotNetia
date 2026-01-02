@@ -98,7 +98,7 @@ internal abstract class Combattant : ICombattant, ICible
     ApresAttaqueLourde();
     return degatsFinaux;
   }
-  
+
   #endregion
 
   #region RecevoirDegats()
@@ -122,11 +122,10 @@ internal abstract class Combattant : ICombattant, ICible
 
   protected virtual void AvantAttaque()
   {
-    
   }
 
   #endregion
-  
+
   #region ApresAttaque()
 
   protected virtual void ApresAttaque() //Overridé par les enfants
@@ -150,7 +149,7 @@ internal abstract class Combattant : ICombattant, ICible
   }
 
   #endregion
-  
+
   #region FinTour()
 
   protected virtual void FinTour()
@@ -170,7 +169,6 @@ internal abstract class Combattant : ICombattant, ICible
   protected virtual void DebutTour()
   {
   }
+
   #endregion
-  
-  //fait chier git putain !!!!!
 }

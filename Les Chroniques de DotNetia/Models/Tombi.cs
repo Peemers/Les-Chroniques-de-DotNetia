@@ -38,7 +38,6 @@ internal class Tombi : Ennemi
       degats = AttaqueBase * 200;
       cible.RecevoirDegats(degats);
       return degats;
-      
     }
 
     if (_dejaAttaque)

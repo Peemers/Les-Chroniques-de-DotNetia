@@ -10,7 +10,7 @@ internal class TraqueurDesFourrés : Ennemi
   //prop
 
   //constructeurs
-  internal TraqueurDesFourrés(string pseudo) : base("Tranqueur des Fourrés")
+  internal TraqueurDesFourrés() : base("Tranqueur des Fourrés")
   {
   }
 
