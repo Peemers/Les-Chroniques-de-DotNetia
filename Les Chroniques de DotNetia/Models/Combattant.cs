@@ -25,6 +25,8 @@ internal abstract class Combattant : ICombattant, ICible
     get { return PvActuels > 0; }
   }
 
+  
+
   protected virtual double MultiplicateurDegats => 1.0; //prop Overridé chez les enfants
   protected virtual double MultiplicateurDegatsRecus => 1.0; // idem
 

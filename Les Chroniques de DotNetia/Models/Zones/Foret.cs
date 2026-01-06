@@ -4,6 +4,8 @@ namespace Les_Chroniques_de_DotNetia.Models.Zones;
 
 internal class Foret : Zone
 {
+ 
+ //constructeur
  public Foret() : base("La Forêt du Ça-Marchait-Hier", "Une Forêt sombre et peu rassurante")
  {
   EnnemisPossibles.Add(() => new Dragonnet());

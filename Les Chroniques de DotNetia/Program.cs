@@ -1,15 +1,26 @@
-﻿using Les_Chroniques_de_DotNetia.Models.Zones;
+﻿using Les_Chroniques_de_DotNetia.Models;
+using Les_Chroniques_de_DotNetia.Models.Ennemis;
+using Les_Chroniques_de_DotNetia.Models.UI;
 
 class Program
 {
   static void Main()
   {
-    Zone zoneActuelle = new Foret();
+    Joueur joueur1 = new Guerrier("Peemers");
+    Ennemi ennemi1 = new Sanglier();
 
-    Console.WriteLine(zoneActuelle.Nom);
-    Console.WriteLine(zoneActuelle.Description);
+    while (joueur1.IsAlive || ennemi1.IsAlive)
+    {
+      MenuCombat menuCombat = new MenuCombat(joueur1);
 
-    var ennemi = zoneActuelle.GenererEnnemi();
-    Console.WriteLine($"Un {ennemi.Pseudo} apparaît !");
+      ActionCombat actionChoisie = menuCombat.ChoisirAction();
+
+      int degats = actionChoisie(ennemi1);
+
+      Console.WriteLine($"Dégâts infligés : {degats}");
+      Console.WriteLine($"PV restants de l'ennemi : {ennemi1.PvActuels}");
+
+      Console.ReadKey();
+    }
   }
 }
