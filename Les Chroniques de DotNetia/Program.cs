@@ -1,15 +1,21 @@
-﻿using Les_Chroniques_de_DotNetia.Models.Zones;
+﻿using Les_Chroniques_de_DotNetia.Interfaces;
+using Les_Chroniques_de_DotNetia.Models;
+using Les_Chroniques_de_DotNetia.Models.Ennemis;
+using Les_Chroniques_de_DotNetia.Models.Zones;
+
+internal delegate int FightAction(ICible cible);
 
 class Program
 {
   static void Main()
   {
-    Zone zoneActuelle = new Foret();
+    FightAction action;
+    
+    Joueur joueur1 = new Guerrier("Peemers");
+    Ennemi ennemi1 = new Sanglier();
 
-    Console.WriteLine(zoneActuelle.Nom);
-    Console.WriteLine(zoneActuelle.Description);
+    action = joueur1.Attaquer;
 
-    var ennemi = zoneActuelle.GenererEnnemi();
-    Console.WriteLine($"Un {ennemi.Pseudo} apparaît !");
+    int degats = action(ennemi1);
   }
 }
