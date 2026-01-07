@@ -9,8 +9,8 @@ public class De
   private static readonly Random _random = new Random(); //random
   //prop
 
-  public int Minimum { get; protected init; } = 1;
-  public int Maximum { get; protected init; } = 8;
+  public int Minimum { get; protected init; }
+  public int Maximum { get; protected init; }
 
   //Constructeurs
 

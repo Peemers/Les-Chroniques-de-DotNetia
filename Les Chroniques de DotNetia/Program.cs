@@ -24,3 +24,19 @@ class Program
     }
   }
 }
+
+// class Program
+// {
+//   public delegate string SalutationAction();
+//   SalutationAction salutationAction;
+//
+//   string DireBonjour()
+//   {
+//     return "Bonjour !!";
+//   }
+//
+//   string DireAuRevoir()
+//   {
+//     return "Au revoir !!";
+//   }
+// }
