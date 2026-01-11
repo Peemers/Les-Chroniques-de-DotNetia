@@ -2,6 +2,7 @@
 using Les_Chroniques_de_DotNetia.Utils;
 
 // ReSharper disable All
+//todo une classe barre de vie
 
 namespace Les_Chroniques_de_DotNetia.Models;
 

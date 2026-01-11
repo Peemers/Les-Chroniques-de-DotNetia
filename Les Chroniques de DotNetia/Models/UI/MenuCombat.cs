@@ -20,6 +20,8 @@ internal class MenuCombat
     Console.WriteLine("Choisissez une action :");
     Console.WriteLine("1 - Attaquer");
     Console.WriteLine("2 - Attaque Lourde");
+    Console.WriteLine("3 - Tenter une fuite");
+    
 
     string choix = Console.ReadLine()!;
 
@@ -29,6 +31,8 @@ internal class MenuCombat
         return _joueur.Attaquer;
       case "2":
         return _joueur.AttaqueLourde;
+      case "3":
+        
       default:
         Console.WriteLine("Choix invalide, attaque par défaut.");
         return _joueur.Attaquer;
